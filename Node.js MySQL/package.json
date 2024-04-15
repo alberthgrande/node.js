@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql": "^2.18.1"
+  },
+  "name": "node.js-mysql",
+  "version": "1.0.0",
+  "description": "Sample app for using mysql, node and express",
+  "main": "db_connection.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alberth Ruado",
+  "license": "ISC"
+}
