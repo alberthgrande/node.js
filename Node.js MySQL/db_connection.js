@@ -162,3 +162,37 @@ app.get("/updateCustomers", (req, res) => {
     res.send(`Updated customers name!`);
   });
 });
+
+// limit customer
+app.get("/limitCustomers", (req, res) => {
+  let sql = "SELECT * FROM customers LIMIT 5";
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send(`Limit customers 5!`);
+  });
+});
+
+// limit offset customer
+app.get("/limitOffsetCustomers", (req, res) => {
+  // let sql = "SELECT * FROM customers LIMIT 5 OFFSET 2";
+  let sql = "SELECT * FROM customers LIMIT  2, 5";
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send(`Limit offset customers 5!`);
+  });
+});
+
+// INNER JOIN
+app.get("/innerJoinCustomers", (req, res) => {
+  // let sql =
+  //   "SELECT orders.order_id, users.user_name FROM orders INNER JOIN users ON orders.user_id = users.user_id";
+  let sql =
+    "SELECT orders.order_id, users.user_name, orders.total_amount, users.email FROM orders INNER JOIN users ON orders.user_id = users.user_id";
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send(`Inner Join users and orders database table`);
+  });
+});
