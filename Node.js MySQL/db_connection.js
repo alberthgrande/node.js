@@ -142,12 +142,23 @@ app.get("/selectedCutomersOrderBy", (req, res) => {
   });
 });
 
-// select order by
+// delete customer
 app.get("/deleteCustomers/:delete", (req, res) => {
   let sql = "DELETE FROM customers WHERE id = ?";
   con.query(sql, [req.params.delete], (err, result) => {
     if (err) throw err;
     console.log(result);
     res.send(`DELETED customer width id ${req.params.delete}`);
+  });
+});
+
+// update customner
+app.get("/updateCustomers", (req, res) => {
+  let updateName = "peter";
+  let sql = `UPDATE customers SET name = '${updateName}' WHERE name = 'Peter' `;
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send(`Updated customers name!`);
   });
 });
