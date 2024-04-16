@@ -95,3 +95,39 @@ app.get("/selectedCutomersFields", (req, res) => {
     res.send("Selected cutomers");
   });
 });
+
+// selected row like
+app.get("/selectedCutomersLike/:search", (req, res) => {
+  let sql = "SELECT * from customers WHERE name LIKE ? OR address LIKE ?";
+  con.query(
+    sql,
+    ["%" + req.params.search + "%", "%" + req.params.search + "%"],
+    (err, result) => {
+      if (err) throw err;
+      console.log(result);
+      res.send("Selected like");
+    }
+  );
+});
+
+// selected row escape
+// Escape query values by using the mysql.escape() method:
+app.get("/selectedCutomersEsape/:id", (req, res) => {
+  let sql = "SELECT * from customers WHERE id = " + mysql.escape(req.params.id);
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send("Selected row mysql.escape()");
+  });
+});
+
+// selected row escape
+// Escape query values by using the placeholder ? method:
+app.get("/selectedCutomersQuestion/:id", (req, res) => {
+  let sql = "SELECT * from customers WHERE id = ?";
+  con.query(sql, [req.params.id], (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send("Selected placeholder ?");
+  });
+});
