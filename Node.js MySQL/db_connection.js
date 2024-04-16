@@ -131,3 +131,13 @@ app.get("/selectedCutomersQuestion/:id", (req, res) => {
     res.send("Selected placeholder ?");
   });
 });
+
+// select order by
+app.get("/selectedCutomersOrderBy", (req, res) => {
+  let sql = "SELECT * from customers WHERE id ORDER BY name DESC";
+  con.query(sql, [req.params.id], (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send("Select order by");
+  });
+});
