@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User, { IUser } from "../models/userModel";
+import { IUserDTO } from "../types/user";
 
 // create user
 export const createUser = async (
@@ -7,8 +8,11 @@ export const createUser = async (
   res: Response
 ): Promise<void> => {
   try {
-    req.body.email = req.body.email.toLowerCase();
-    const user: IUser = new User(req.body); // IUser is only used to created data
+    if (req.body.email) {
+      req.body.email = req.body.email.toLowerCase();
+    }
+    const userData: IUserDTO = req.body;
+    const user: IUser = new User(userData); // IUser is only used to created data
     const saved = await user.save();
     res.status(201).json({ message: "User created successfully", saved });
   } catch (error: any) {
@@ -52,17 +56,21 @@ export const updateUser = async (
   res: Response
 ): Promise<void> => {
   try {
-    req.body.email = req.body.email.toLowerCase();
-    const user = await User.findByIdAndUpdate(req.body.id, req.body, {
+    if (req.body.email) {
+      req.body.email = req.body.email.toLowerCase();
+    }
+
+    const data: Partial<IUserDTO> = req.body;
+    const updated = await User.findByIdAndUpdate(req.params.id, data, {
       new: true,
     });
 
-    if (!user) {
-      res.status(404).json({ message: "User not found", user });
+    if (!updated) {
+      res.status(404).json({ message: "User not found" });
       return;
     }
 
-    res.status(200).json({ message: "User updated successfully", user });
+    res.status(200).json({ message: "User updated successfully", updated });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
